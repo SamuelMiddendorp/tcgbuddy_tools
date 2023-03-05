@@ -17,14 +17,21 @@ def write_json(data: dict, out: str):
 
 def main() -> int:
 
-    file_name = sys.argv[1];
-    field = sys.argv[2];
+    file_name = sys.argv[1] if len(sys.argv) >1 else "in.json";
+    field = sys.argv[2] if len(sys.argv) >2 else "id";
+    out_file_name = sys.argv[3] if len(sys.argv) >3 else "out.json"
+    try:
+        data = load_json(file_name)
+    except:
+        print("Unable to open file: {}".format(file_name))
+        return 1
+    try:
+        selected_prop = take_single(data, field)
+    except:
+        print("Cannot find property: {}".format(field))
+        return 1
 
-    data = load_json(file_name)
-
-    selected_prop = take_single(data, field)
-
-    write_json(selected_prop, "foo.json")
+    write_json(selected_prop, out_file_name)
 
     return 0
 
