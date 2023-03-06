@@ -29,12 +29,11 @@ func GetAndWrite(url string, filename string, apiKey string) error {
 	if err != nil {
 		return err
 	}
-	errr := json.Unmarshal(body, &data)
-	if errr != nil {
-		return err
-	}
+
+	succeedOrFatal(json.Unmarshal(body, &data))
 
 	os.WriteFile("out/"+filename+".json", body, 0644)
+
 	return err
 }
 func succeedOrFatal(e error) {
